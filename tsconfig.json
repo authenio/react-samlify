@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es5",
+      "dom"
+    ],
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    // "noImplicitAny": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "module": "commonjs",
+    "target": "es6"
+  }
+}
