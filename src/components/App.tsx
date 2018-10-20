@@ -1,56 +1,13 @@
 import * as React from 'react';
-import axios from 'axios';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Home } from './Home';
 
-type Props = {
-};
-
-type State = {
-  authenticated: boolean;
-}
-
-export class App extends React.PureComponent<Props, State> {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      authenticated: false
-    };
-  }
-
-  componentWillMount() {
-
-  }
-
+export class App extends React.PureComponent {
   render() {
     return (
-      <React.Fragment>
-        <div>
-          {
-            // if not logged in
-          }
-          {
-            !this.state.authenticated && <>
-              <input type="email" placeholder="Enter email" />
-              <input type="password" autoComplete="new-password" placeholder="Enter password" />
-              <button onClick={() => null}>Login</button>
-              <div>
-                <button onClick={() => null}>SSO Login - redirect</button>
-                <button onClick={() => null}>SSO Login - post</button>
-              </div>
-            </>
-          }
-          {
-            // logged in
-          }
-          {
-            this.state.authenticated && <>
-              Successfully Log in!
-              <button onClick={() => null}>Logout</button>
-            </>
-          }
-        </div>
-      </React.Fragment>
+      <Router>
+        <Route path="/" component={Home} />
+      </Router>
     );
   }
-
 }
