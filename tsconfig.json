@@ -14,7 +14,6 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    // "noImplicitAny": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "jsx": "react",

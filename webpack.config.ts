@@ -1,4 +1,5 @@
-const path = require('path');
+import * as path from 'path';
+import server from './server';
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -18,7 +19,8 @@ module.exports = {
 
   devServer: {
     historyApiFallback: true,
-    compress: true
+    compress: true,
+    before: (app) => server(app)
   },
 
   module: {
