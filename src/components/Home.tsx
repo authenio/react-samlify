@@ -32,6 +32,10 @@ export class Home extends React.Component<Props, State> {
     window.location.href = '/sso/redirect';
   }
 
+  _initPostRequest() {
+    window.location.href = '/sso/post';
+  }
+
   _viewMetadata() {
     window.location.href = '/metadata';
   }
@@ -76,18 +80,19 @@ export class Home extends React.Component<Props, State> {
 
   render() {
     if (!this.state.authenticated) {
-      return <>
-        <div>
+      return (
+        <React.Fragment>
           <button onClick={() => this._initRedirectRequest()}>Okta SSO Login - redirect</button>
+          <button onClick={() => this._initPostRequest()}>Okta SSO Login - post</button>
           <button onClick={() => this._viewMetadata()}>Metadata</button>
-        </div>
-      </>;
+        </React.Fragment>
+      );
     }
     {
       /** render screen after login in */
     }
     return <>
-      Weclome <b>{this.state.profile.email}</b>
+      Welcome <b>{this.state.profile.email}</b>
       <button onClick={() => this._logout()}>Logout</button>
     </>
   }

@@ -47,14 +47,28 @@ export default function server(app) {
       }
       throw new Error('ERR_USER_NOT_FOUND');
     } catch (e) {
+      console.error('[FATAL] when parsing login response sent from okta', e);
       return res.redirect('/');
     }
   });
 
   // call to init a sso login with redirect binding
-  app.get('/sso/redirect', (req, res) => {
-    const { id, context: redirectUrl } = sp.createLoginRequest(oktaIdp, 'redirect'); 
+  app.get('/sso/redirect', async (req, res) => {
+    const { id, context: redirectUrl } = await sp.createLoginRequest(oktaIdp, 'redirect'); 
     return res.redirect(redirectUrl);
+  });
+
+  app.get('/sso/post', async (req, res) => {
+    const { id, context } = await sp.createLoginRequest(oktaIdp, 'post');
+    // construct form data
+    const endpoint = oktaIdp.entityMeta.getSingleSignOnService('post') as string;
+    const requestForm = fs
+      .readFileSync('./request.html')
+      .toString()
+      .replace('$ENDPOINT', endpoint)
+      .replace('$CONTEXT', context);
+      
+    return res.send(requestForm);
   });
 
   // distribute the metadata

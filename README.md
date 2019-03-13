@@ -22,7 +22,8 @@ If you want to have your own login for testing, please send an email to passify.
 
 ## Features
 
-- [x] SP-initiate SSO with Okta IDP (Response with signed assertion and message)
+- [x] (REDIRECT) SP-initiate SSO with Okta IDP (Response with signed assertion and message)
+- [x] (POST) SP-initiate SSO with Okta IDP (Response with signed assertion and message)
 - [ ] SP-initiate SSO with Okta IDP (Encrypted and signed response)
 - [ ] SP-initiate Single Logout with Okta IDP
 
