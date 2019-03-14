@@ -10,6 +10,7 @@
     "dev": "webpack-dev-server --hot --mode development --open"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "jsonwebtoken": "^8.3.0",
     "query-string": "^6.2.0",

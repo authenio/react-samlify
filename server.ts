@@ -1,42 +1,20 @@
-import * as samlify from 'samlify';
 import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
 import { getUser, createToken, verifyToken } from './services/auth';
-
-const binding = samlify.Constants.namespace.binding;
+import { assignEntity } from './middleware';
 
 export default function server(app) {
 
   app.use(bodyParser.urlencoded({ extended: false }));
   // for pretty print debugging
   app.set('json spaces', 2);
-
-  // configure okta idp
-  const oktaIdp = samlify.IdentityProvider({
-    metadata: fs.readFileSync('./metadata/okta.xml')
-  });
-
-  // configure our service provider (your application)
-  const sp = samlify.ServiceProvider({
-    entityID: 'http://localhost:8080/metadata',
-    authnRequestsSigned: false,
-    wantAssertionsSigned: true,
-    wantMessageSigned: true,
-    wantLogoutResponseSigned: true,
-    wantLogoutRequestSigned: true,
-    privateKey: fs.readFileSync('./key/privkey.pem'),
-    privateKeyPass: 'VHOSp5RUiBcrsjrcAuXFwU1NKCkGA8px',
-    isAssertionEncrypted: false,
-    assertionConsumerService: [{
-      Binding: binding.post,
-      Location: 'http://localhost:8080/sp/acs',
-    }]
-  });
+  // assign the session sp and idp based on the params
+  app.use(assignEntity);
 
   // assertion consumer service endpoint (post-binding)
   app.post('/sp/acs', async (req, res) => {
     try {
-      const { extract } = await sp.parseLoginResponse(oktaIdp, 'post', req);
+      const { extract } = await req.sp.parseLoginResponse(req.idp, 'post', req);
       const { login } = extract.attributes;
       // get your system user
       const payload = getUser(login);
@@ -54,26 +32,26 @@ export default function server(app) {
 
   // call to init a sso login with redirect binding
   app.get('/sso/redirect', async (req, res) => {
-    const { id, context: redirectUrl } = await sp.createLoginRequest(oktaIdp, 'redirect'); 
+    const { id, context: redirectUrl } = await req.sp.createLoginRequest(req.idp, 'redirect'); 
     return res.redirect(redirectUrl);
   });
 
   app.get('/sso/post', async (req, res) => {
-    const { id, context } = await sp.createLoginRequest(oktaIdp, 'post');
+    const { id, context } = await req.sp.createLoginRequest(req.idp, 'post');
     // construct form data
-    const endpoint = oktaIdp.entityMeta.getSingleSignOnService('post') as string;
+    const endpoint = req.idp.entityMeta.getSingleSignOnService('post') as string;
     const requestForm = fs
       .readFileSync('./request.html')
       .toString()
       .replace('$ENDPOINT', endpoint)
       .replace('$CONTEXT', context);
-      
+
     return res.send(requestForm);
   });
 
   // distribute the metadata
   app.get('/metadata', (req, res) => {
-    res.header('Content-Type', 'text/xml').send(sp.getMetadata());
+    res.header('Content-Type', 'text/xml').send(req.sp.getMetadata());
   });
 
   // get user profile

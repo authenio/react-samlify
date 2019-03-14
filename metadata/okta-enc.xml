@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://www.okta.com/exkjqamcw2RLn5r780h7"><md:IDPSSODescriptor WantAuthnRequestsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"><md:KeyDescriptor use="signing"><ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:X509Data><ds:X509Certificate>MIIDpDCCAoygAwIBAgIGAWaCVhaGMA0GCSqGSIb3DQEBCwUAMIGSMQswCQYDVQQGEwJVUzETMBEG
+A1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEU
+MBIGA1UECwwLU1NPUHJvdmlkZXIxEzARBgNVBAMMCmRldi02MDUxNDgxHDAaBgkqhkiG9w0BCQEW
+DWluZm9Ab2t0YS5jb20wHhcNMTgxMDE3MTQwMTUxWhcNMjgxMDE3MTQwMjUxWjCBkjELMAkGA1UE
+BhMCVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xDTALBgNV
+BAoMBE9rdGExFDASBgNVBAsMC1NTT1Byb3ZpZGVyMRMwEQYDVQQDDApkZXYtNjA1MTQ4MRwwGgYJ
+KoZIhvcNAQkBFg1pbmZvQG9rdGEuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+peevAFoR23vLHLtnxsvhbNiY5HsxCpcoDgtZQ+TwGVeKJLOasEup3SW2+1ChohhzEXxJ7tavxQcN
+gJFF4PtL0qUc43ds1fmJp0aqqFfJ1c60+2ZXBD4/TZXQUy81NjtlHH4otbPo6BLevvmvJ5+Gv77z
+E4FPORen3UuA7yI5aX2qisxB8Fr69Y87M8A065cvQvT9ER1XhCndqABL3gSqJdTG9hkgtqTZl80E
+F3kWsNx2nP/NAZOTVJYqXGXzoqyx5y3btqhj0dSqMuIigJm6sF8CJLyJi1v8YXGCr8CI/WaRRoWJ
+XOfbLIRwX+8GlxlaVRaCRhFkTzu1ro6tl0HBKQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBED9Sw
+YfXsVzCqIH2ynMjSAEKGQJus7IG59jnws96IdwZQccMo1VugvkImQXvJjaqJq2bvSwgUeaxcs1az
+PwIFvbyDN4SMfX2FbDcX9+N65akbjho+BazVax/ZAEOZNlvpuj2LtnySk/yxoDsXE30TG1B3elDc
+xvbTUroaD7ypeweFf0c3+o9WIP6MuQOrNLs+oCeCOY/y+ceimD4TYxVxYMGf/xW/W70aRi2CdUd9
+Noaz3tuw8VTvnMwTcWG5wA1COi8DM9hd+ioglP5ipliw9GAM68lwJAjCR7pznymaNkoeuux6NMbW
+Pf4Gew2Ju/8WFsfl5hUqm8aGgpKe8Hb2</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat><md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://dev-605148.oktapreview.com/app/passifydev605148_authenioencrypted_1/exkjqamcw2RLn5r780h7/sso/saml"/><md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://dev-605148.oktapreview.com/app/passifydev605148_authenioencrypted_1/exkjqamcw2RLn5r780h7/sso/saml"/></md:IDPSSODescriptor></md:EntityDescriptor>
