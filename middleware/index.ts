@@ -8,7 +8,9 @@ const oktaIdp = samlify.IdentityProvider({
 });
 
 const oktaIdpEnc = samlify.IdentityProvider({
-  metadata: fs.readFileSync(__dirname + '/../metadata/okta-enc.xml')
+  metadata: fs.readFileSync(__dirname + '/../metadata/okta-enc.xml'),
+  isAssertionEncrypted: true,
+  messageSigningOrder: 'encrypt-then-sign'
 });
 
 // configure our service provider (your application)
@@ -30,7 +32,7 @@ const sp = samlify.ServiceProvider({
 
 // encrypted response
 const spEnc = samlify.ServiceProvider({
-  entityID: 'http://localhost:8080/metadata',
+  entityID: 'http://localhost:8080/metadata?encrypted=true',
   authnRequestsSigned: false,
   wantAssertionsSigned: true,
   wantMessageSigned: true,
@@ -38,11 +40,10 @@ const spEnc = samlify.ServiceProvider({
   wantLogoutRequestSigned: true,
   privateKey: fs.readFileSync(__dirname + '/../key/sign/privkey.pem'),
   privateKeyPass: 'VHOSp5RUiBcrsjrcAuXFwU1NKCkGA8px',
-  isAssertionEncrypted: true,
   encPrivateKey: fs.readFileSync(__dirname + '/../key/encrypt/privkey.pem'),
   assertionConsumerService: [{
     Binding: binding.post,
-    Location: 'http://localhost:8080/sp/acs',
+    Location: 'http://localhost:8080/sp/acs?encrypted=true',
   }]
 });
 

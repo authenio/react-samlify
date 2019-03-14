@@ -50,8 +50,12 @@ export default function server(app) {
   });
 
   // distribute the metadata
-  app.get('/metadata', (req, res) => {
+  app.get('/sp/metadata', (req, res) => {
     res.header('Content-Type', 'text/xml').send(req.sp.getMetadata());
+  });
+
+  app.get('/idp/metadata', (req, res) => {
+    res.header('Content-Type', 'text/xml').send(req.idp.getMetadata());
   });
 
   // get user profile

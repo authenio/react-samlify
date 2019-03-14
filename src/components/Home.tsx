@@ -3,6 +3,8 @@ import { RouteComponentProps } from 'react-router';
 import { parse } from 'query-string';
 import axios from 'axios';
 
+import './index.css';
+
 const LOCALSTORAGE_TOKEN_FIELD = 'auth_token';
 
 type Props = RouteComponentProps & {};
@@ -11,9 +13,13 @@ type Profile = {
   email: string;
 }
 
+type SamlOption = {
+  encrypted: boolean;
+};
+
 const Container = (props: { children: ReactNode }) => {
   return (
-    <div className="flex items-center justify-center vh-100 system-sans-serif"> 
+    <div className="vh-100 system-sans-serif flex flex-column items-center justify-center"> 
       {props.children}
     </div>
   )
@@ -35,17 +41,27 @@ export function Home(props: Props) {
 
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [profile, setProfile] = useState<Profile>({ email: null });
+  const [samlOption, setSamlOption] = useState<SamlOption>({ encrypted: true });
+
+  const parseQuery = () => {
+    const query = samlOption.encrypted ? '?encrypted=true' : '';
+    return query;
+  };
 
   const initRedirectRequest = () => {
-    window.location.href = '/sso/redirect';
+    window.location.href = `/sso/redirect${parseQuery()}`;
   };
 
   const initPostRequest = () => {
-    window.location.href = '/sso/post';
+    window.location.href = `/sso/post${parseQuery()}`;
   };
 
-  const viewMetadata = () => {
-    window.location.href = '/metadata';
+  const viewSpMetadata = () => {
+    window.open(`/sp/metadata${parseQuery()}`);
+  };
+
+  const viewIdpMetadata = () => {
+    window.open(`/idp/metadata${parseQuery()}`);
   };
 
   const logout = () => {
@@ -64,6 +80,13 @@ export function Home(props: Props) {
       setProfile({ email: null });
       window.localStorage.removeItem(LOCALSTORAGE_TOKEN_FIELD);
     }
+  };
+
+  const toggleEncrypted = () => {
+    setSamlOption({
+      ...samlOption,
+      encrypted: !samlOption.encrypted
+    })
   };
 
   const init = async () => {
@@ -93,15 +116,32 @@ export function Home(props: Props) {
   if (!authenticated) {
     return (
       <Container>
-        <Button onClick={() => initRedirectRequest()}>
-          Okta - redirect
-        </Button>
-        <Button onClick={() => initPostRequest()}>
-          Okta - post
-        </Button>
-        <Button onClick={() => viewMetadata()}>
-          Metadata
-        </Button>
+        <div className="">
+          <Button onClick={() => initRedirectRequest()}>
+            Okta - redirect
+          </Button>
+          <Button onClick={() => initPostRequest()}>
+            Okta - post
+          </Button>
+          <Button onClick={() => viewSpMetadata()}>
+            SP Metadata
+          </Button>
+          <Button onClick={() => viewIdpMetadata()}>
+            Okta Metadata
+          </Button>
+        </div>
+        <div className="pb2 f6 silver mv3 bb b--black-20 bw1 tc">Options</div>
+        <div>
+          <label className="cb-container f6 silver flex">
+            <span>with encryption</span>
+            <input
+              type="checkbox"
+              defaultChecked={samlOption.encrypted}
+              onClick={() => toggleEncrypted()}
+            />
+            <span className="checkmark"></span>
+          </label> 
+        </div>
       </Container>
     );
   }
