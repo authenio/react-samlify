@@ -19,7 +19,7 @@
     "react-helmet": "^5.2.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "samlify": "^2.5.0-rc3",
+    "samlify": "^2.5.0-rc4",
     "styled-components": "^4.0.2",
     "webpack": "^4.20.2"
   },
