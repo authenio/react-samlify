@@ -20,13 +20,15 @@ Password: AUvRhaudDxHHb3vuPydP
 
 If you want to have your own login for testing, please send an email to passify.io@gmail.com.
 
-## Features
+## Features Completed
 
 - [x] (REDIRECT) SP-initiate SSO with Okta IDP (Response with signed assertion and message)
 - [x] (POST) SP-initiate SSO with Okta IDP (Response with signed assertion and message)
 - [x] (REDIRECT) SP-initiate SSO with Okta IDP (Encrypted and signed response)
 - [x] (POST) SP-initiate SSO with Okta IDP (Encrypted and signed response)
-- [ ] SP-initiate Single Logout with Okta IDP
+
+- [x] (REDIRECT) SP-initiate Single Logout with Okta IDP
+- [ ] (POST) SP-initiate Single Logout with Okta IDP
 
 **Remarks: If SP-initiate SSO works, IDP initiate SSO works as well.**
 
