@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
 import { getUser, createToken, verifyToken } from './services/auth';
 import { assignEntity } from './middleware';
+import { Constants } from 'samlify';
 
 export default function server(app) {
 
@@ -18,6 +19,10 @@ export default function server(app) {
       const { login } = extract.attributes;
       // get your system user
       const payload = getUser(login);
+
+      // assign req user
+      req.user = { nameId: login };
+
       if (payload) {
         // create session and redirect to the session page
         const token = createToken(payload);
@@ -47,6 +52,19 @@ export default function server(app) {
       .replace('$CONTEXT', context);
 
     return res.send(requestForm);
+  });
+
+  // endpoint where consuming logout response
+  app.post('/sp/sso/logout', async (req, res) => {
+    const { extract } = await req.sp.parseLogoutResponse(req.idp, 'post', req);
+    if (extract.statusCode === Constants.StatusCode.Success) {
+      return res.redirect('/logout');
+    }
+  });
+
+  app.get('/sp/single_logout/redirect', async (req, res) => {
+    const { context: redirectUrl } = await req.sp.createLogoutRequest(req.idp, 'redirect', { logoutNameID: 'user.passify.io@gmail.com' });
+    return res.redirect(redirectUrl);
   });
 
   // distribute the metadata

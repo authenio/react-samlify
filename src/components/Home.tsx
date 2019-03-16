@@ -44,6 +44,7 @@ export function Home(props: Props) {
   const [samlOption, setSamlOption] = useState<SamlOption>({ encrypted: true });
 
   const parseQuery = () => {
+    console.log('--------->>>', samlOption);
     const query = samlOption.encrypted ? '?encrypted=true' : '';
     return query;
   };
@@ -69,6 +70,11 @@ export function Home(props: Props) {
     setAuthenticated(false);
     setProfile({ email: null });
   }
+
+  // initialize single logout from sp side
+  const singleLogoutRedirect = () => {
+    window.location.href = `/sp/single_logout/redirect${parseQuery()}`;
+  };
 
   const getProfile = async (token: string) => {
     try {
@@ -152,6 +158,7 @@ export function Home(props: Props) {
     <div className="flex flex-column">
       <span className="mb3">Welcome back <b>{profile.email}</b></span>
       <Button onClick={() => logout()}>Logout</Button>
+      <Button onClick={() => singleLogoutRedirect()}>Single Logout (Redirect)</Button>
     </div>
   </Container>
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Home } from './Home';
+import { Logout } from './Logout';
 import { Helmet } from "react-helmet";
 
 export class App extends React.PureComponent {
@@ -13,6 +14,9 @@ export class App extends React.PureComponent {
         </Helmet>
         <Router>
           <Route path="/" component={Home} />
+        </Router>
+        <Router>
+          <Route path="/logout" component={Logout} />
         </Router>
       </React.Fragment>
     );

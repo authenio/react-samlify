@@ -4,13 +4,15 @@ const binding = samlify.Constants.namespace.binding;
 
 // configure okta idp
 const oktaIdp = samlify.IdentityProvider({
-  metadata: fs.readFileSync(__dirname + '/../metadata/okta.xml')
+  metadata: fs.readFileSync(__dirname + '/../metadata/okta.xml'),
+  wantLogoutRequestSigned: true
 });
 
 const oktaIdpEnc = samlify.IdentityProvider({
   metadata: fs.readFileSync(__dirname + '/../metadata/okta-enc.xml'),
   isAssertionEncrypted: true,
-  messageSigningOrder: 'encrypt-then-sign'
+  messageSigningOrder: 'encrypt-then-sign',
+  wantLogoutRequestSigned: true,
 });
 
 // configure our service provider (your application)
