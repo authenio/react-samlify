@@ -1,6 +1,6 @@
 {
   "name": "react-samlify",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Example application with React and bundled with webpack",
   "main": "index.js",
   "author": "authenio",
@@ -10,6 +10,7 @@
     "dev": "webpack-dev-server --hot --mode development --open"
   },
   "dependencies": {
+    "@authenio/samlify-node-xmllint": "^1.0.1",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "jsonwebtoken": "^8.3.0",
@@ -19,7 +20,7 @@
     "react-helmet": "^5.2.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "samlify": "^2.5.0-rc4",
+    "samlify": "^2.6.0-rc2",
     "styled-components": "^4.0.2",
     "webpack": "^4.20.2"
   },

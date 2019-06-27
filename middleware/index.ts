@@ -1,6 +1,10 @@
 import * as samlify from 'samlify';
 import * as fs from 'fs';
+import * as validator from '@authenio/samlify-node-xmllint';
+
 const binding = samlify.Constants.namespace.binding;
+
+samlify.setSchemaValidator(validator);
 
 // configure okta idp
 const oktaIdp = samlify.IdentityProvider({

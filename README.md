@@ -22,13 +22,8 @@ If you want to have your own login for testing, please send an email to passify.
 
 ## Features Completed
 
-- [x] (REDIRECT) SP-initiate SSO with Okta IDP (Response with signed assertion and message)
-- [x] (POST) SP-initiate SSO with Okta IDP (Response with signed assertion and message)
-- [x] (REDIRECT) SP-initiate SSO with Okta IDP (Encrypted and signed response)
-- [x] (POST) SP-initiate SSO with Okta IDP (Encrypted and signed response)
-
-- [x] (REDIRECT) SP-initiate Single Logout with Okta IDP
-- [ ] (POST) SP-initiate Single Logout with Okta IDP
+- [x] SP-init SSO, Okta IDP with (redirect/post) binding (Encrypted/Signed/Encrypted + Sign)
+- [x] SP-init SLO, Okta IDP with (redirect/post) binding
 
 **Remarks: If SP-initiate SSO works, IDP initiate SSO works as well.**
 
