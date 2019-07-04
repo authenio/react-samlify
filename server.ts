@@ -57,9 +57,7 @@ export default function server(app) {
   // endpoint where consuming logout response
   app.post('/sp/sso/logout', async (req, res) => {
     const { extract } = await req.sp.parseLogoutResponse(req.idp, 'post', req);
-    if (extract.statusCode === Constants.StatusCode.Success) {
-      return res.redirect('/logout');
-    }
+    return res.redirect('/logout');
   });
 
   app.get('/sp/single_logout/redirect', async (req, res) => {
