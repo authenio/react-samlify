@@ -16,6 +16,7 @@ export default function server(app) {
   app.post('/sp/acs', async (req, res) => {
     try {
       const { extract } = await req.sp.parseLoginResponse(req.idp, 'post', req);
+      //
       const { login } = extract.attributes;
       // get your system user
       const payload = getUser(login);

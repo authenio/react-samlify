@@ -22,8 +22,8 @@ If you want to have your own login for testing, please send an email to passify.
 
 ## Features Completed
 
-- [x] SP-init SSO, Okta IDP with (redirect/post) binding (Encrypted/Signed/Encrypted + Sign)
-- [x] SP-init SLO, Okta IDP with (redirect/post) binding
+- [x] SP-init SSO, Okta, OpenAM IDP with (redirect/post) binding (Encrypted/Signed/Encrypted + Sign)
+- [x] SP-init SLO, Okta, OpenAM IDP with (redirect/post) binding
 
 **Remarks: If SP-initiate SSO works, IDP initiate SSO works as well.**
 

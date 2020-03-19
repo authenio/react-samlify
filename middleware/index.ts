@@ -7,20 +7,42 @@ const binding = samlify.Constants.namespace.binding;
 samlify.setSchemaValidator(validator);
 
 // configure okta idp
-const oktaIdp = samlify.IdentityProvider({
-  metadata: fs.readFileSync(__dirname + '/../metadata/okta.xml'),
-  wantLogoutRequestSigned: true
-});
 
-const oktaIdpEnc = samlify.IdentityProvider({
-  metadata: fs.readFileSync(__dirname + '/../metadata/okta-enc.xml'),
-  isAssertionEncrypted: true,
-  messageSigningOrder: 'encrypt-then-sign',
-  wantLogoutRequestSigned: true,
-});
+const idp = (idp, encrypted) => {
+
+  if (idp === 'okta') {
+
+    if (encrypted) {
+      return samlify.IdentityProvider({
+          metadata: fs.readFileSync(__dirname + '/../metadata/okta-enc.xml'),
+          isAssertionEncrypted: true,
+          messageSigningOrder: 'encrypt-then-sign',
+          wantLogoutRequestSigned: true,
+      });
+    }
+    
+    return samlify.IdentityProvider({
+      metadata: fs.readFileSync(__dirname + '/../metadata/okta.xml'),
+      wantLogoutRequestSigned: true
+    });
+
+  }
+
+  if (idp === 'openam') {
+
+    return samlify.IdentityProvider({
+      metadata: fs.readFileSync(__dirname + '/../metadata/openam.xml'),
+      isAssertionEncrypted: false
+    });
+
+  }
+
+  throw new Error('Unsupported IdP');
+
+}
 
 // configure our service provider (your application)
-const sp = samlify.ServiceProvider({
+const sp = (idp) => samlify.ServiceProvider({
   entityID: 'http://localhost:8080/metadata',
   authnRequestsSigned: false,
   wantAssertionsSigned: true,
@@ -32,12 +54,12 @@ const sp = samlify.ServiceProvider({
   isAssertionEncrypted: false,
   assertionConsumerService: [{
     Binding: binding.post,
-    Location: 'http://localhost:8080/sp/acs',
+    Location: `http://localhost:8080/sp/acs?idp=${idp}`,
   }]
 });
 
 // encrypted response
-const spEnc = samlify.ServiceProvider({
+const spEnc = (idp) => samlify.ServiceProvider({
   entityID: 'http://localhost:8080/metadata?encrypted=true',
   authnRequestsSigned: false,
   wantAssertionsSigned: true,
@@ -49,20 +71,16 @@ const spEnc = samlify.ServiceProvider({
   encPrivateKey: fs.readFileSync(__dirname + '/../key/encrypt/privkey.pem'),
   assertionConsumerService: [{
     Binding: binding.post,
-    Location: 'http://localhost:8080/sp/acs?encrypted=true',
+    Location: `http://localhost:8080/sp/acs?encrypted=true&idp=${idp}`,
   }]
 });
 
-export const assignEntity = (req, res, next) => {
+export const assignEntity = (req, _res, next) => {
 
-  req.idp = oktaIdp;
-  req.sp = sp;
-
-  if (req.query && req.query.encrypted) {
-    req.idp = oktaIdpEnc;
-    req.sp = spEnc; 
+  if (req.query && req.query.idp) {
+    req.idp = idp(req.query.idp, req.query.encrypted);
+    req.sp = sp(req.query.idp);
   }
 
   return next();
-
 };

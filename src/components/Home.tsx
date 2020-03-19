@@ -43,26 +43,38 @@ export function Home(props: Props) {
   const [profile, setProfile] = useState<Profile>({ email: null });
   const [samlOption, setSamlOption] = useState<SamlOption>({ encrypted: true });
 
-  const parseQuery = () => {
-    console.log('--------->>>', samlOption);
-    const query = samlOption.encrypted ? '?encrypted=true' : '';
-    return query;
+  const parseQuery = (idp) => {
+    let params = [];
+
+    if (samlOption.encrypted) {
+      params = params.concat('encrypted=true');
+    }
+
+    if (idp) {
+      params = params.concat(`idp=${idp}`);
+    }
+
+    if (params.length > 0) {
+      return '?' + params.join('&');
+    }
+    
+    return '';
   };
 
-  const initRedirectRequest = () => {
-    window.location.href = `/sso/redirect${parseQuery()}`;
+  const initRedirectRequest = (idp) => {
+    window.location.href = `/sso/redirect${parseQuery(idp)}`;
   };
 
-  const initPostRequest = () => {
-    window.location.href = `/sso/post${parseQuery()}`;
+  const initPostRequest = (idp) => {
+    window.location.href = `/sso/post${parseQuery(idp)}`;
   };
 
-  const viewSpMetadata = () => {
-    window.open(`/sp/metadata${parseQuery()}`);
+  const viewSpMetadata = (idp) => {
+    window.open(`/sp/metadata${parseQuery(idp)}`);
   };
 
-  const viewIdpMetadata = () => {
-    window.open(`/idp/metadata${parseQuery()}`);
+  const viewIdpMetadata = (idp) => {
+    window.open(`/idp/metadata${parseQuery(idp)}`);
   };
 
   const logout = () => {
@@ -72,8 +84,8 @@ export function Home(props: Props) {
   }
 
   // initialize single logout from sp side
-  const singleLogoutRedirect = () => {
-    window.location.href = `/sp/single_logout/redirect${parseQuery()}`;
+  const singleLogoutRedirect = (idp) => {
+    window.location.href = `/sp/single_logout/redirect${parseQuery(idp)}`;
   };
 
   const getProfile = async (token: string) => {
@@ -123,23 +135,24 @@ export function Home(props: Props) {
     return (
       <Container>
         <div className="">
-          <Button onClick={() => initRedirectRequest()}>
-            Okta - redirect
-          </Button>
-          <Button onClick={() => initPostRequest()}>
-            Okta - post
-          </Button>
-          <Button onClick={() => viewSpMetadata()}>
-            SP Metadata
-          </Button>
-          <Button onClick={() => viewIdpMetadata()}>
-            Okta Metadata
-          </Button>
+          <div className="b mv2">OPENAM</div>
+          <div>
+            <Button onClick={() => viewSpMetadata('openam')}>SP Metadata</Button>
+            <Button onClick={() => viewIdpMetadata('openam')}>OpenAM Metadata</Button>
+            <Button onClick={() => initRedirectRequest('openam')}>OpenAM Redirect</Button>
+            <Button onClick={() => initPostRequest('openam')}>OpenAM POST</Button>
+          </div>
+          <div className="b mv2">Okta</div>
+          <div>
+            <Button onClick={() => viewSpMetadata('okta')}>SP Metadata</Button>
+            <Button onClick={() => viewIdpMetadata('okta')}>Okta Metadata</Button>
+            <Button onClick={() => initRedirectRequest('okta')}>Okta Redirect</Button>
+            <Button onClick={() => initPostRequest('okta')}>Okta POST</Button>
+          </div>
         </div>
-        <div className="pb2 f6 silver mv3 bb b--black-20 bw1 tc">Options</div>
-        <div>
+        <div className="mt5">
           <label className="cb-container f6 silver flex">
-            <span>with encryption</span>
+            <span className="b">Encrypted</span>
             <input
               type="checkbox"
               defaultChecked={samlOption.encrypted}
@@ -158,7 +171,7 @@ export function Home(props: Props) {
     <div className="flex flex-column">
       <span className="mb3">Welcome back <b>{profile.email}</b></span>
       <Button onClick={() => logout()}>Logout</Button>
-      <Button onClick={() => singleLogoutRedirect()}>Single Logout (Redirect)</Button>
+      <Button onClick={() => singleLogoutRedirect('okta')}>Single Logout (Redirect)</Button>
     </div>
   </Container>
 
